@@ -11,7 +11,7 @@ class GhostModule(Layer):
         self.conv_out_channel = ceil(self.out * 1.0 / ratio)
 
         self.conv = Conv2D(self.out, (convkernel, convkernel), use_bias=use_bias,
-                           strides=(strides,strides), padding='same', activation=None)
+                           strides=(strides, strides), padding='same', activation=None)
         self.depthconv = DepthwiseConv2D(dwkernel, strides, padding='same', use_bias=use_bias,
                                          depth_multiplier=ratio-1, activation=None)
         self.slice = Lambda(self._return_slices, arguments={'channel': int(self.out - self.conv_out_channel)})
