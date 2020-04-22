@@ -1,4 +1,4 @@
-from tensorflow.keras.layers import GlobalAveragePooling2D, Conv2D, Lambda, Reshape, Layer
+from tensorflow.keras.layers import GlobalAveragePooling2D, Conv2D, Lambda, Reshape, Layer, Activation
 
 
 class SEModule(Layer):
@@ -6,10 +6,10 @@ class SEModule(Layer):
         super(Layer, self).__init__()
         self.pooling = GlobalAveragePooling2D(data_format='channels_last')
         self.reshape = Lambda(self._reshape)
-        self.conv1 = Conv2D(int(filters / ratio), (1,1), strides=(1,1), padding='same',
-                           data_format='channels_last', use_bias=False, activation='relu')
-        self.conv2 = Conv2D(int(filters / ratio), (1, 1), strides=(1, 1), padding='same',
-                            data_format='channels_last', use_bias=False, activation='hard_sigmoid')
+        self.conv = Conv2D(int(filters / ratio), (1,1), strides=(1,1), padding='same',
+                           data_format='channels_last', use_bias=False, activation=None)
+        self.relu = Activation('relu')
+        self.hard_sigmoid = Activation('hard_sigmoid')
 
     @staticmethod
     def _reshape(x):
@@ -23,7 +23,9 @@ class SEModule(Layer):
     def call(self, inputs):
         x = self.pooling(inputs)
         x = self.reshape(x)
-        x = self.conv1(x)
-        excitation = self.conv2(x)
+        x = self.conv(x)
+        x = self.relu(x)
+        excitation = self.conv(x)
+        excitation = self.hard_sigmoid(excitation)
         x = Lambda(self.excite, arguments={'excitation': excitation})(inputs)
         return x
