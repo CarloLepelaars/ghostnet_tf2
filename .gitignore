@@ -1,0 +1,11 @@
+# Notebook checkpoints
+*.idea
+*-checkpoint.ipynb
+.ipynb_checkpoints/
+
+# Configuration files
+*.vcs
+*.xml
+
+# Datasets
+/Data/
