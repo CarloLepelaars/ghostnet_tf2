@@ -1,4 +1,3 @@
-import tensorflow as tf
 from tensorflow.keras.layers import Conv2D, DepthwiseConv2D, Layer, BatchNormalization, Activation, add
 
 from ghost_bottleneck.components.semodule import SEModule

@@ -1,6 +1,5 @@
 from math import ceil
 
-import tensorflow as tf
 from tensorflow.keras.layers import Conv2D, Concatenate, DepthwiseConv2D, Lambda, Layer, Activation
 
 

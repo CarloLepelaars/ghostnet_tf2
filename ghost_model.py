@@ -1,5 +1,6 @@
-from tensorflow.keras import Input, Model
 import tensorflow.keras.backend as K
+
+from tensorflow.keras import Model
 from tensorflow.keras.layers import Conv2D, BatchNormalization, Activation, AveragePooling2D, Flatten, Lambda, Layer
 
 from ghost_bottleneck.bottleneck import GBNeck
@@ -9,7 +10,6 @@ class GhostNet(Model):
     def __init__(self, classes):
         super(GhostNet, self).__init__()
         self.classes = classes
-        # self.input = Input(self.input_shape)
         self.conv1 = Conv2D(16, (3, 3), strides=(2, 2), padding='same', data_format='channels_last',
                             activation=None, use_bias=False)
         self.conv2 = Conv2D(960, (1, 1), strides=(1, 1), padding='same', data_format='channels_last',
