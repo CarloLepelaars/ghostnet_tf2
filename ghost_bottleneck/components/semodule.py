@@ -3,7 +3,7 @@ from tensorflow.keras.layers import GlobalAveragePooling2D, Conv2D, Lambda, Resh
 
 class SEModule(Layer):
     def __init__(self, filters, ratio):
-        super(Layer, self).__init__()
+        super(SEModule, self).__init__()
         self.pooling = GlobalAveragePooling2D(data_format='channels_last')
         self.reshape = Lambda(self._reshape)
         self.conv = Conv2D(int(filters / ratio), (1,1), strides=(1,1), padding='same',
