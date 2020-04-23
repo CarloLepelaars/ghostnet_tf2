@@ -1,7 +1,7 @@
 from tensorflow.keras.layers import Conv2D, DepthwiseConv2D, Layer, BatchNormalization, Activation, add
 
-from .components.semodule import SEModule
-from .components.ghostmodule import GhostModule
+from ghost_bottleneck.components.semodule import SEModule
+from ghost_bottleneck.components.ghostmodule import GhostModule
 
 
 class GBNeck(Layer):
