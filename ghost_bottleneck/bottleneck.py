@@ -5,6 +5,9 @@ from .components.ghostmodule import GhostModule
 
 
 class GBNeck(Layer):
+    """
+    The GhostNet Bottleneck
+    """
     def __init__(self, dwkernel, strides, exp, out, ratio, use_se):
         super(GBNeck, self).__init__()
         self.strides = strides

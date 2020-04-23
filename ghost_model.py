@@ -6,6 +6,11 @@ from ghost_bottleneck.bottleneck import GBNeck
 
 
 class GhostNet(Model):
+    """
+    The main GhostNet architecture as specified in "GhostNet: More Features from Cheap Operations"
+    Paper:
+    https://arxiv.org/pdf/1911.11907.pdf
+    """
     def __init__(self, classes):
         super(GhostNet, self).__init__()
         self.classes = classes
@@ -32,7 +37,6 @@ class GhostNet(Model):
                    False, True, True, True, False, True, False, True]
         for i, args in enumerate(zip(dwkernels, strides, exps, outs, ratios, use_ses)):
             setattr(self, f"gbneck{i}", GBNeck(*args))
-
 
     @staticmethod
     def _squeeze(x):

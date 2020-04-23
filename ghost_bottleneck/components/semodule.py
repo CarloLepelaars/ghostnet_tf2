@@ -2,6 +2,9 @@ from tensorflow.keras.layers import GlobalAveragePooling2D, Conv2D, Lambda, Resh
 
 
 class SEModule(Layer):
+    """
+    A squeeze and excite module
+    """
     def __init__(self, filters, ratio):
         super(SEModule, self).__init__()
         self.pooling = GlobalAveragePooling2D()

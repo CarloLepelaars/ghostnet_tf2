@@ -4,6 +4,9 @@ from tensorflow.keras.layers import Conv2D, Concatenate, DepthwiseConv2D, Lambda
 
 
 class GhostModule(Layer):
+    """
+    The main Ghost module
+    """
     def __init__(self, out, ratio, convkernel, dwkernel, use_bias, strides=1):
         super(GhostModule, self).__init__()
         self.ratio = ratio
