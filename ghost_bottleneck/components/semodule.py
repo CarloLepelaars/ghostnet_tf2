@@ -4,10 +4,10 @@ from tensorflow.keras.layers import GlobalAveragePooling2D, Conv2D, Lambda, Resh
 class SEModule(Layer):
     def __init__(self, filters, ratio):
         super(SEModule, self).__init__()
-        self.pooling = GlobalAveragePooling2D(data_format='channels_last')
+        self.pooling = GlobalAveragePooling2D()
         self.reshape = Lambda(self._reshape)
-        self.conv = Conv2D(int(filters / ratio), (1,1), strides=(1,1), padding='same',
-                           data_format='channels_last', use_bias=False, activation=None)
+        self.conv = Conv2D(int(filters / ratio), (1, 1), strides=(1, 1), padding='same',
+                           use_bias=False, activation=None)
         self.relu = Activation('relu')
         self.hard_sigmoid = Activation('hard_sigmoid')
 

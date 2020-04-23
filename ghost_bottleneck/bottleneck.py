@@ -10,11 +10,11 @@ class GBNeck(Layer):
         self.strides = strides
         self.use_se = use_se
         self.batchnorm = BatchNormalization()
-        self.conv = Conv2D(out, (1, 1), strides=(1, 1), padding='same', data_format='channels_last',
+        self.conv = Conv2D(out, (1, 1), strides=(1, 1), padding='same',
                            activation=None, use_bias=False)
         self.relu = Activation('relu')
         self.depthconv = DepthwiseConv2D(dwkernel, strides, padding='same', depth_multiplier=ratio-1,
-                                         data_format='channels_last', activation=None, use_bias=False)
+                                         activation=None, use_bias=False)
         self.ghost1 = GhostModule(exp, ratio, 1, 3, use_bias=False)
         self.ghost2 = GhostModule(out, ratio, 1, 3, use_bias=False)
         self.se = SEModule(exp, ratio)
