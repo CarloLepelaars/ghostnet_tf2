@@ -18,8 +18,8 @@ class GBNeck(Layer):
         self.relu = Activation('relu')
         self.depthconv = DepthwiseConv2D(dwkernel, strides, padding='same', depth_multiplier=ratio-1,
                                          activation=None, use_bias=False)
-        self.ghost1 = GhostModule(exp, ratio, 1, 3, use_bias=False)
-        self.ghost2 = GhostModule(out, ratio, 1, 3, use_bias=False)
+        self.ghost1 = GhostModule(exp, ratio, 1, 3)
+        self.ghost2 = GhostModule(out, ratio, 1, 3)
         self.se = SEModule(exp, ratio)
 
     def call(self, inputs):
@@ -27,9 +27,8 @@ class GBNeck(Layer):
         x = self.batchnorm(x)
         x = self.conv(x)
         x = self.batchnorm(x)
-        print(x)
-        y = self.ghost1(x)
-        print(y)
+
+        y = self.ghost1(inputs)
         y = self.batchnorm(y)
         y = self.relu(y)
         # Extra depth conv if strides higher than 1

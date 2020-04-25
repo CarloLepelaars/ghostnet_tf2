@@ -7,23 +7,21 @@ class GhostModule(Layer):
     """
     The main Ghost module
     """
-    def __init__(self, out, ratio, convkernel, dwkernel, use_bias, strides=1):
+    def __init__(self, out, ratio, convkernel, dwkernel):
         super(GhostModule, self).__init__()
         self.ratio = ratio
         self.out = out
         self.conv_out_channel = ceil(self.out * 1.0 / ratio)
-
-        self.conv = Conv2D(self.out, (convkernel, convkernel), use_bias=use_bias,
-                           strides=(strides, strides), padding='same', activation=None)
-        self.depthconv = DepthwiseConv2D(dwkernel, strides, padding='same', use_bias=use_bias,
+        self.conv = Conv2D(int(self.out), (convkernel, convkernel), use_bias=False,
+                           strides=(1, 1), padding='same', activation=None)
+        self.depthconv = DepthwiseConv2D(dwkernel, 1, padding='same', use_bias=False,
                                          depth_multiplier=ratio-1, activation=None)
         self.slice = Lambda(self._return_slices, arguments={'channel': int(self.out - self.conv_out_channel)})
-        self.concat = Concatenate(axis=-1)
+        self.concat = Concatenate()
 
     @staticmethod
     def _return_slices(x, channel):
-        y = x[:, :, :, :channel]
-        return y
+        return x[:, :, :, :channel]
 
     def call(self, inputs):
         x = self.conv(inputs)
@@ -31,5 +29,4 @@ class GhostModule(Layer):
             return x
         dw = self.depthconv(x)
         dw = self.slice(dw)
-        x = self.concat([x, dw])
-        return x
+        return self.concat([x, dw])

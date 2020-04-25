@@ -28,7 +28,7 @@ class SEModule(Layer):
         x = self.reshape(x)
         x = self.conv(x)
         x = self.relu(x)
-        excitation = self.conv(x)
-        excitation = self.hard_sigmoid(excitation)
+        x = self.conv(x)
+        excitation = self.hard_sigmoid(x)
         x = Lambda(self.excite, arguments={'excitation': excitation})(inputs)
         return x
