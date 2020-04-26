@@ -21,6 +21,13 @@ class SEModule(Layer):
 
     @staticmethod
     def _excite(x, excitation):
+        """
+        Multiply by an excitation factor
+
+        :param x: A Tensorflow Tensor
+        :param excitation: A float between 0 and 1
+        :return:
+        """
         return x * excitation
 
     def call(self, inputs):

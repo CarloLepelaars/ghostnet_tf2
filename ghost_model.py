@@ -53,9 +53,3 @@ class GhostNet(Model):
         x = self.squeeze(x)
         output = self.softmax(x)
         return output
-
-
-if __name__ == "__main__":
-    model = GhostNet(1000)
-    model.build(input_shape=(None, 224, 224, 3))
-    print(model.summary())
