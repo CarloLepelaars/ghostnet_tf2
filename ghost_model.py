@@ -1,6 +1,6 @@
 from tensorflow.keras import Model
 from tensorflow.keras import backend as K
-from tensorflow.keras.layers import Conv2D, BatchNormalization, Activation, AveragePooling2D, Lambda
+from tensorflow.keras.layers import Conv2D, BatchNormalization, Activation, GlobalAveragePooling2D, Lambda, Reshape
 
 from ghost_bottleneck.bottleneck import GBNeck
 
@@ -22,11 +22,13 @@ class GhostNet(Model):
                             activation=None, use_bias=False)
         self.conv4 = Conv2D(self.classes, (1, 1), strides=(1, 1), padding='same',
                             activation=None, use_bias=False)
-        self.batchnorm = BatchNormalization(axis=-1)
+        for i in range(3):
+            setattr(self, f"batchnorm{i+1}", BatchNormalization())
         self.relu = Activation('relu')
         self.softmax = Activation('softmax')
         self.squeeze = Lambda(self._squeeze)
-        self.pooling = AveragePooling2D(pool_size=(7, 7))
+        self.reshape = Lambda(self._reshape)
+        self.pooling = GlobalAveragePooling2D()
 
         self.dwkernels = [3, 3, 3, 5, 5, 3, 3, 3, 3, 3, 3, 5, 5, 5, 5, 5]
         self.strides = [1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1]
@@ -40,15 +42,20 @@ class GhostNet(Model):
 
     @staticmethod
     def _squeeze(x):
-        return K.squeeze(x)
+        return K.squeeze(x, 1)
+
+    @staticmethod
+    def _reshape(x):
+        return Reshape((1, 1, int(x.shape[1])))(x)
 
     def call(self, inputs):
-        x = self.relu(self.batchnorm(self.conv1(inputs)))
+        x = self.relu(self.batchnorm1(self.conv1(inputs)))
+        # Iterate through Ghost Bottlenecks
         for i in range(16):
             x = getattr(self, f"gbneck{i}")(x)
-        x = self.relu(self.batchnorm(self.conv2(x)))
-        x = self.pooling(x)
-        x = self.relu(self.batchnorm(self.conv3(x)))
+        x = self.relu(self.batchnorm2(self.conv2(x)))
+        x = self.reshape(self.pooling(x))
+        x = self.relu(self.batchnorm3(self.conv3(x)))
         x = self.conv4(x)
         x = self.squeeze(x)
         output = self.softmax(x)
