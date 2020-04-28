@@ -12,7 +12,7 @@ class GhostModule(Layer):
         self.ratio = ratio
         self.out = out
         self.conv_out_channel = ceil(self.out * 1.0 / ratio)
-        self.conv = Conv2D(int(self.out), (convkernel, convkernel), use_bias=False,
+        self.conv = Conv2D(int(self.conv_out_channel), (convkernel, convkernel), use_bias=False,
                            strides=(1, 1), padding='same', activation=None)
         self.depthconv = DepthwiseConv2D(dwkernel, 1, padding='same', use_bias=False,
                                          depth_multiplier=ratio-1, activation=None)
@@ -29,4 +29,5 @@ class GhostModule(Layer):
             return x
         dw = self.depthconv(x)
         dw = self.slice(dw)
-        return self.concat([x, dw])
+        output = self.concat([x, dw])
+        return output

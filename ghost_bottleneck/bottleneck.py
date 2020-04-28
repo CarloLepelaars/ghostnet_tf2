@@ -42,4 +42,6 @@ class GBNeck(Layer):
         y = self.ghost2(y)
         y = self.batchnorm(y)
         # Skip connection
-        return add([x, y])
+        output = add([x, y])
+        print(output)
+        return output

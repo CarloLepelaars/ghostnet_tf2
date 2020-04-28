@@ -5,5 +5,5 @@ if __name__ == "__main__":
     model = GhostNet(1000)
 
     # Build model with specified shape
-    model.build((None, 224, 224, 3))
+    model.build((None, 112, 112, 3))
     print(model.summary())
