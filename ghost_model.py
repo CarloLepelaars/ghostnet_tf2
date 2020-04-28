@@ -42,6 +42,9 @@ class GhostNet(Model):
 
     @staticmethod
     def _squeeze(x):
+        """
+        Remove all axes with a dimension of 1
+        """
         return K.squeeze(x, 1)
 
     @staticmethod
