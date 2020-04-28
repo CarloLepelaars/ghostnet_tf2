@@ -6,14 +6,14 @@ Link to paper: https://arxiv.org/pdf/1911.11907.pdf
 ## Using Ghostnet
 
 This implementation is a normal Keras Model object.
-You initialize it and specify the number of classes, build or compile it and it is ready to fit.
+You initialize it, build or compile it and it is ready to fit!
 
-Example:
+Dummy example:
 ```
 from ghost_model import GhostNet
 
-# Initialize model with 1000 classes
-model = GhostNet(1000)
+# Initialize model with 10 classes
+model = GhostNet(10)
 
 # Compile and fit
 model.compile(loss='categorical_crossentropy', 
@@ -21,3 +21,5 @@ model.compile(loss='categorical_crossentropy',
 model.fit(data)
 
 ```
+
+Check out the Jupyter notebook "mnist_example.ipynb" in this repository for an example of using this implementation on a real dataset.
