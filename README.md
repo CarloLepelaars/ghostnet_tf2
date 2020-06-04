@@ -1,5 +1,5 @@
 # ghostnet_tf2
-An implementation of GhostNet for Tensorflow 2.1. (From the paper "GhostNet: More Features from Cheap Operations")
+An implementation of GhostNet for Tensorflow 2.0+ (From the paper "GhostNet: More Features from Cheap Operations")
 
 Link to paper: https://arxiv.org/pdf/1911.11907.pdf
 
