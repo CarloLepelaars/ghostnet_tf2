@@ -1,3 +1,5 @@
+![](https://img.shields.io/github/repo-size/carlolepelaars/ghostnet_tf2)
+
 # ghostnet_tf2
 An implementation of GhostNet for Tensorflow 2.0+ (From the paper "GhostNet: More Features from Cheap Operations")
 
